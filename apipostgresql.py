@@ -33,7 +33,7 @@ app = Flask(__name__)
 def query_postgres():
     try:
         # Aquí puedes poner cualquier query
-        sql = "SELECT * FROM leads_client LIMIT 10"
+        sql = "SELECT COUNT(CASE WHEN is_lost = false AND owner_id IS NOT NULL THEN 1 END) AS total_online, COUNT(CASE WHEN is_lost = true AND lost_date IS NOT NULL AND owner_id IS NOT NULL THEN 1 END) AS total_lost FROM leads_client"
 
         # Ejecutar el query usando pandas
         df = pd.read_sql(sql, engine)
